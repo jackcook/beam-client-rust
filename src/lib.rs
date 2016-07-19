@@ -2,15 +2,15 @@ extern crate curl;
 extern crate rustc_serialize;
 
 use curl::http;
-use rustc_serialize::json;
-
 use std::str;
 
 pub mod error;
 use error::Error;
 
 pub mod models;
-use models::channel::BeamChannel;
+pub mod routes;
+
+use routes::channels::ChannelsRoutes;
 
 pub enum HttpMethod {
     Get,
@@ -20,13 +20,17 @@ pub enum HttpMethod {
     Delete
 }
 
-pub type BeamResult = Result<BeamChannel, Error>;
+pub type BeamResult = Result<String, Error>;
 
 pub struct Beam {}
 
 impl Beam {
     pub fn new() -> Self {
         Beam {}
+    }
+
+    pub fn channels_routes(&self) -> ChannelsRoutes {
+        ChannelsRoutes {}
     }
 
     fn get_url(&self, endpoint: String) -> String {
@@ -54,11 +58,6 @@ impl Beam {
             Err(_) => return Err(Error::Json),
         };
 
-        let decoded: BeamChannel = match json::decode(raw_body) {
-            Ok(data) => data,
-            Err(_) => return Err(Error::Api(response.get_code(), raw_body.to_string()))
-        };
-
-        Ok(decoded)
+        Ok(raw_body.to_string())
     }
 }
