@@ -50,11 +50,15 @@ impl Beam {
         };
 
         let raw_body = match str::from_utf8(response.get_body()) {
-            Ok(raw_body) => raw_body,
+            Ok(data) => data,
             Err(_) => return Err(Error::Json),
         };
 
-        let decoded: BeamChannel = json::decode(raw_body).unwrap();
+        let decoded: BeamChannel = match json::decode(raw_body) {
+            Ok(data) => data,
+            Err(_) => return Err(Error::Api(response.get_code(), raw_body.to_string()))
+        };
+
         Ok(decoded)
     }
 }

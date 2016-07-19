@@ -5,6 +5,7 @@ use std::fmt;
 
 #[derive(Debug)]
 pub enum Error {
+    Api(u32, String),
     Json,
     Http(curl::ErrCode),
 }
@@ -12,6 +13,7 @@ pub enum Error {
 impl error::Error for Error {
     fn description(&self) -> &str {
         match *self {
+            Error::Api(_, ref msg) => msg,
             Error::Json => "Invalid JSON",
             Error::Http(ref err) => err.description(),
         }
@@ -19,6 +21,7 @@ impl error::Error for Error {
 
     fn cause(&self) -> Option<&error::Error> {
         match *self {
+            Error::Api(_, _) => None,
             Error::Json => None,
             Error::Http(ref err) => Some(err),
         }
