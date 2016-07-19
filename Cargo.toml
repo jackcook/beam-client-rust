@@ -1,0 +1,7 @@
+[package]
+name = "beam"
+version = "0.1.0"
+authors = ["Jack Cook <hello@jackcook.nyc>"]
+
+[dependencies]
+hyper = "0.9.10"
