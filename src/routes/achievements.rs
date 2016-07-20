@@ -3,7 +3,7 @@ extern crate rustc_serialize;
 use rustc_serialize::json;
 
 use ::request::{BeamRequest, HttpMethod};
-use error::Error as Error;
+use error::Error;
 
 use ::models::achievement::BeamAchievement;
 

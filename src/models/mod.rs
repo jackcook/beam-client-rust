@@ -7,6 +7,12 @@ pub mod badge;
 /// A channel model.
 pub mod channel;
 
+/// A chat details model.
+pub mod chat_details;
+
+/// A chat user model.
+pub mod chat_user;
+
 /// A channel's cover image model.
 pub mod cover;
 
