@@ -71,3 +71,36 @@ fn test_fresh_channels() {
         Err(_) => panic!("error retrieving channels")
     }
 }
+
+#[test]
+fn test_followers_of_channel() {
+    let beam = Beam::new();
+    let res = beam.channels.get_followers_of_channel(CHANNEL_ID, 0);
+
+    match res {
+        Ok(_) => assert!(true),
+        Err(_) => panic!("error retrieving followers")
+    }
+}
+
+#[test]
+fn test_emoticons_of_channel() {
+    let beam = Beam::new();
+    let res = beam.channels.get_emoticons_of_channel(CHANNEL_ID);
+
+    match res {
+        Ok(_) => assert!(true),
+        Err(_) => panic!("error retrieving emoticons")
+    }
+}
+
+#[test]
+fn test_recordings_of_channel() {
+    let beam = Beam::new();
+    let res = beam.channels.get_recordings_of_channel(CHANNEL_ID);
+
+    match res {
+        Ok(_) => assert!(true),
+        Err(_) => panic!("error retrieving recordings")
+    }
+}

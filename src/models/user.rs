@@ -23,9 +23,9 @@ pub struct BeamUser {
     /// The identifier of the user's primary team.
     pub primaryTeam: Option<i32>,
     /// The date string, in UTC, at which the user registered.
-    pub createdAt: String,
+    pub createdAt: Option<String>,
     /// The date string, in UTC, at which the user last updated.
-    pub updatedAt: String,
+    pub updatedAt: Option<String>,
     /// The date string, in UTC, at which the user was deleted.
     pub deletedAt: Option<String>,
     /// The user's associated channel.

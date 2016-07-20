@@ -6,12 +6,24 @@ use ::request::{BeamRequest, HttpMethod};
 use error::Error as Error;
 
 use ::models::channel::BeamChannel;
+use ::models::emoticon_pack::BeamEmoticonPack;
+use ::models::recording::BeamRecording;
+use ::models::user::BeamUser;
 
 /// Result from a call returning one channel.
 pub type BeamChannelResult = Result<BeamChannel, Error>;
 
 /// Result from a call returning multiple channels.
 pub type BeamChannelsResult = Result<Vec<BeamChannel>, Error>;
+
+/// Result from a call returning a channel's followers.
+pub type BeamFollowersResult = Result<Vec<BeamUser>, Error>;
+
+/// Result from a call returning a channel's emoticon pack.
+pub type BeamEmoticonPackResult = Result<BeamEmoticonPack, Error>;
+
+/// Result from a call returning a channel's recordings.
+pub type BeamRecordingsResult = Result<Vec<BeamRecording>, Error>;
 
 /// The type of channels being requested.
 pub enum ChannelsRequestType {
@@ -86,8 +98,8 @@ impl ChannelsRoutes {
                 let decoded: BeamChannel = match json::decode(raw_body) {
                     Ok(data) => data,
                     Err(err) => {
-                        let error = format!("{}", err);
-                        return Err(Error::Api(error, raw_body.to_string()));
+                        let err = format!("{}", err);
+                        return Err(Error::Api(err, raw_body.to_string()));
                     }
                 };
 
@@ -118,7 +130,7 @@ impl ChannelsRoutes {
     ///     Err(_) => println!("error retrieving channel :(")
     /// }
     /// ```
-    pub fn get_channels(&self, request_type: ChannelsRequestType, page: i32) -> BeamChannelsResult {
+    pub fn get_channels(&self, request_type: ChannelsRequestType, page: u32) -> BeamChannelsResult {
         let endpoint = match request_type {
             ChannelsRequestType::All => "order=online:desc,viewersCurrent:desc,viewersTotal:desc&where=suspended.eq.0,online.eq.1",
             ChannelsRequestType::Interactive => "order=online:desc,viewersCurrent:desc,viewersTotal:desc&where=suspended.eq.0,online.eq.1,interactive.eq.1",
@@ -133,8 +145,118 @@ impl ChannelsRoutes {
                 let decoded: Vec<BeamChannel> = match json::decode(raw_body) {
                     Ok(data) => data,
                     Err(err) => {
-                        let error = format!("{}", err);
-                        return Err(Error::Api(error, raw_body.to_string()));
+                        let err = format!("{}", err);
+                        return Err(Error::Api(err, raw_body.to_string()));
+                    }
+                };
+
+                return Ok(decoded);
+            },
+            Err(_) => return Err(Error::Json)
+        }
+    }
+
+    /// Retrieves the followers of a channel, paginated.
+    ///
+    /// # Arguments
+    ///
+    /// * `id` The id of the channel followers are being retrieved from.
+    /// * `page` The page in the range [0, inf] of followers being requested.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # use beam::Beam;
+    /// let beam = Beam::new();
+    /// let res = beam.channels.get_followers_of_channel(252, 0);
+    ///
+    /// match res {
+    ///     Ok(followers) => println!("jack has {} followers.", followers.len()),
+    ///     Err(_) => println!("error retrieving followers :(")
+    /// }
+    /// ```
+    pub fn get_followers_of_channel(&self, id: u32, page: u32) -> BeamFollowersResult {
+        let endpoint = String::from(format!("/channels/{}/follow?page={}", id, page));
+        match BeamRequest::request(endpoint, HttpMethod::Get) {
+            Ok(ref raw_body) => {
+                let decoded: Vec<BeamUser> = match json::decode(raw_body) {
+                    Ok(data) => data,
+                    Err(err) => {
+                        let err = format!("{}", err);
+                        return Err(Error::Api(err, raw_body.to_string()));
+                    }
+                };
+
+                return Ok(decoded);
+            },
+            Err(_) => return Err(Error::Json)
+        }
+    }
+
+    /// Retrieves the emoticons of a channel, paginated.
+    ///
+    /// # Arguments
+    ///
+    /// * `id` The id of the channel emoticons are being retrieved from.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # use beam::Beam;
+    /// let beam = Beam::new();
+    /// let res = beam.channels.get_emoticons_of_channel(252);
+    ///
+    /// match res {
+    ///     Ok(pack) => println!("tlovetech's emoticon spritesheet can be found at {}.", pack.url),
+    ///     Err(_) => println!("error retrieving emoticons :(")
+    /// }
+    /// ```
+    pub fn get_emoticons_of_channel(&self, id: u32) -> BeamEmoticonPackResult {
+        let endpoint = String::from(format!("/channels/{}/emoticons", id));
+        match BeamRequest::request(endpoint, HttpMethod::Get) {
+            Ok(ref raw_body) => {
+                let decoded: BeamEmoticonPack = match json::decode(raw_body) {
+                    Ok(data) => data,
+                    Err(err) => {
+                        let err = format!("{}", err);
+                        return Err(Error::Api(err, raw_body.to_string()));
+                    }
+                };
+
+                return Ok(decoded);
+            },
+            Err(_) => return Err(Error::Json)
+        }
+    }
+
+    /// Retrieves the recordings of a channel.
+    ///
+    /// # Arguments
+    ///
+    /// * `id` The id of the channel recordings are being retrieved from.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # use beam::Beam;
+    /// let beam = Beam::new();
+    /// let res = beam.channels.get_recordings_of_channel(3181);
+    ///
+    /// match res {
+    ///     Ok(recordings) => println!("tlovetech has {} available recordings.", recordings.len()),
+    ///     Err(_) => println!("error retrieving recordings :(")
+    /// }
+    /// ```
+    pub fn get_recordings_of_channel(&self, id: u32) -> BeamRecordingsResult {
+        let endpoint = String::from(format!("/channels/{}/recordings", id));
+        match BeamRequest::request(endpoint, HttpMethod::Get) {
+            Ok(ref raw_body) => {
+                let decoded: Vec<BeamRecording> = match json::decode(raw_body) {
+                    Ok(data) => data,
+                    Err(err) => {
+                        println!("{}", err);
+                        let err = format!("{}", err);
+                        return Err(Error::Api(err, raw_body.to_string()));
                     }
                 };
 

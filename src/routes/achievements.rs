@@ -40,8 +40,8 @@ impl AchievementsRoutes {
                 let decoded: Vec<BeamAchievement> = match json::decode(raw_body) {
                     Ok(data) => data,
                     Err(err) => {
-                        let error = format!("{}", err);
-                        return Err(Error::Api(error, raw_body.to_string()));
+                        let err = format!("{}", err);
+                        return Err(Error::Api(err, raw_body.to_string()));
                     }
                 };
 
