@@ -25,6 +25,9 @@ pub type BeamEmoticonPackResult = Result<BeamEmoticonPack, Error>;
 /// Result from a call returning a channel's recordings.
 pub type BeamRecordingsResult = Result<Vec<BeamRecording>, Error>;
 
+/// Result from a call returning a channel's viewers.
+pub type BeamViewersResult = Result<Vec<BeamUser>, Error>;
+
 /// The type of channels being requested.
 pub enum ChannelsRequestType {
     /// All online channels, sorted by descending viewer count.
@@ -240,6 +243,39 @@ impl ChannelsRoutes {
         match BeamRequest::request(endpoint, HttpMethod::Get) {
             Ok(ref raw_body) => {
                 let decoded: Vec<BeamRecording> = match json::decode(raw_body) {
+                    Ok(data) => data,
+                    Err(err) => return Err(Error::Unknown(format!("{}", err)))
+                };
+
+                return Ok(decoded);
+            },
+            Err(_) => return Err(Error::Json)
+        }
+    }
+
+    /// Retrieves the users currently watching a channel.
+    ///
+    /// # Arguments
+    ///
+    /// * `id` The id of the channel viewers are being retrieved from.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # use beam::Beam;
+    /// let beam = Beam::new();
+    /// let res = beam.channels.get_viewers_of_channel(3181, 0);
+    ///
+    /// match res {
+    ///     Ok(viewers) => println!("{} people are currently watching tlovetech.", viewers.len()),
+    ///     Err(_) => println!("error retrieving viewers :(")
+    /// }
+    /// ```
+    pub fn get_viewers_of_channel(&self, id: u32, page: u32) -> BeamViewersResult {
+        let endpoint = String::from(format!("/channels/{}/users?page={}", id, page));
+        match BeamRequest::request(endpoint, HttpMethod::Get) {
+            Ok(ref raw_body) => {
+                let decoded: Vec<BeamUser> = match json::decode(raw_body) {
                     Ok(data) => data,
                     Err(err) => return Err(Error::Unknown(format!("{}", err)))
                 };

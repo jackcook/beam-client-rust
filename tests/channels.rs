@@ -104,3 +104,14 @@ fn test_recordings_of_channel() {
         Err(_) => panic!("error retrieving recordings")
     }
 }
+
+#[test]
+fn test_viewers_of_channel() {
+    let beam = Beam::new();
+    let res = beam.channels.get_viewers_of_channel(CHANNEL_ID, 0);
+
+    match res {
+        Ok(_) => assert!(true),
+        Err(_) => panic!("error retrieving viewers")
+    }
+}
