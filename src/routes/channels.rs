@@ -8,6 +8,7 @@ use error::Error as Error;
 use ::models::channel::BeamChannel;
 
 pub type BeamChannelResult = Result<BeamChannel, Error>;
+pub type BeamChannelsResult = Result<Vec<BeamChannel>, Error>;
 
 pub struct ChannelsRoutes {}
 
@@ -30,7 +31,30 @@ impl ChannelsRoutes {
             Ok(ref raw_body) => {
                 let decoded: BeamChannel = match json::decode(raw_body) {
                     Ok(data) => data,
-                    Err(_) => return Err(Error::Api(0, raw_body.to_string())),
+                    Err(err) => {
+                        let error = format!("{}", err);
+                        return Err(Error::Api(error, raw_body.to_string()))
+                    }
+                };
+
+                return Ok(decoded);
+            },
+            Err(_) => return Err(Error::Json),
+        }
+    }
+
+    pub fn get_channels(&self) -> BeamChannelsResult {
+        let beam = Beam::new();
+        let res = beam.request(String::from("/channels"), HttpMethod::Get);
+
+        match res {
+            Ok(ref raw_body) => {
+                let decoded: Vec<BeamChannel> = match json::decode(raw_body) {
+                    Ok(data) => data,
+                    Err(err) => {
+                        let error = format!("{}", err);
+                        return Err(Error::Api(error, raw_body.to_string()))
+                    }
                 };
 
                 return Ok(decoded);

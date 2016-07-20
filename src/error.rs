@@ -5,7 +5,7 @@ use std::fmt;
 
 #[derive(Debug)]
 pub enum Error {
-    Api(u32, String),
+    Api(String, String),
     Json,
     Http(curl::ErrCode),
 }
