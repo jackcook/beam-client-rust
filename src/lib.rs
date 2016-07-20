@@ -12,12 +12,17 @@ pub mod routes;
 
 use routes::channels::ChannelsRoutes;
 
-/// The HTTP method being used in a URL request.
+/// The REST method being used in an HTTP request.
 pub enum HttpMethod {
+    /// Retrieves a resource.
     Get,
+    /// Creates a resource.
     Post,
+    /// Updates a resource.
     Put,
+    /// Updates a resource.
     Patch,
+    /// Deletes a resource.
     Delete
 }
 
