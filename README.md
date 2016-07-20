@@ -16,7 +16,7 @@ static CHANNEL_ID: u32 = 252;
 // Print data about my channel, or an error if one occurs.
 fn main() {
     let beam = Beam::new();
-    let res = beam.channels().get_channel_with_id(CHANNEL_ID);
+    let res = beam.channels.get_channel_with_id(CHANNEL_ID);
 
     match res {
         Ok(channel) => println!("{} has {} viewers.", channel.token, channel.viewersCurrent),

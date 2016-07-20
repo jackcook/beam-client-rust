@@ -2,7 +2,7 @@ extern crate rustc_serialize;
 
 use rustc_serialize::json;
 
-use ::{Beam, HttpMethod};
+use ::request::{BeamRequest, HttpMethod};
 use error::Error as Error;
 
 use ::models::achievement::BeamAchievement;
@@ -11,12 +11,14 @@ use ::models::achievement::BeamAchievement;
 pub type BeamAchievementsResult = Result<Vec<BeamAchievement>, Error>;
 
 /// Routes that can be used to interact with and retrieve achievement data.
-pub struct AchievementsRoutes<'a> {
-    /// The Beam client being used to make requests.
-    pub beam: &'a Beam
-}
+pub struct AchievementsRoutes {}
 
-impl <'a> AchievementsRoutes<'a> {
+impl AchievementsRoutes {
+    /// Creates a new achievements routes instance.
+    pub fn new() -> Self {
+        AchievementsRoutes {}
+    }
+
     /// Retrieves all achievements available on Beam.
     ///
     /// # Example
@@ -24,7 +26,7 @@ impl <'a> AchievementsRoutes<'a> {
     /// ```rust
     /// # use beam::Beam;
     /// let beam = Beam::new();
-    /// let res = beam.achievements().get_achievements();
+    /// let res = beam.achievements.get_achievements();
     ///
     /// match res {
     ///     Ok(achievements) => println!("There are {} achievements available", achievements.len()),
@@ -33,7 +35,7 @@ impl <'a> AchievementsRoutes<'a> {
     /// ```
     pub fn get_achievements(&self) -> BeamAchievementsResult {
         let endpoint = String::from("/achievements");
-        match self.beam.request(endpoint, HttpMethod::Get) {
+        match BeamRequest::request(endpoint, HttpMethod::Get) {
             Ok(ref raw_body) => {
                 let decoded: Vec<BeamAchievement> = match json::decode(raw_body) {
                     Ok(data) => data,

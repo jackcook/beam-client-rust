@@ -2,7 +2,7 @@ extern crate rustc_serialize;
 
 use rustc_serialize::json;
 
-use ::{Beam, HttpMethod};
+use ::request::{BeamRequest, HttpMethod};
 use error::Error as Error;
 
 use ::models::channel::BeamChannel;
@@ -26,12 +26,14 @@ pub enum ChannelsRequestType {
 }
 
 /// Routes that can be used to interact with and retrieve channel data.
-pub struct ChannelsRoutes<'a> {
-    /// The Beam client being used to make requests.
-    pub beam: &'a Beam
-}
+pub struct ChannelsRoutes {}
 
-impl<'a> ChannelsRoutes<'a> {
+impl ChannelsRoutes {
+    /// Creates a new channels routes instance.
+    pub fn new() -> Self {
+        ChannelsRoutes {}
+    }
+
     /// Retrieves a channel with the specified identifier.
     ///
     /// # Arguments
@@ -43,7 +45,7 @@ impl<'a> ChannelsRoutes<'a> {
     /// ```rust
     /// # use beam::Beam;
     /// let beam = Beam::new();
-    /// let res = beam.channels().get_channel_with_id(252);
+    /// let res = beam.channels.get_channel_with_id(252);
     ///
     /// match res {
     ///     Ok(channel) => println!("{} has {} viewers.", channel.token, channel.viewersCurrent),
@@ -66,7 +68,7 @@ impl<'a> ChannelsRoutes<'a> {
     /// ```rust
     /// # use beam::Beam;
     /// let beam = Beam::new();
-    /// let res = beam.channels().get_channel_with_token(String::from("jack"));
+    /// let res = beam.channels.get_channel_with_token(String::from("jack"));
     ///
     /// match res {
     ///     Ok(channel) => println!("{} has {} viewers.", channel.token, channel.viewersCurrent),
@@ -79,7 +81,7 @@ impl<'a> ChannelsRoutes<'a> {
     }
 
     fn get_channel_by_endpoint(&self, endpoint: String) -> BeamChannelResult {
-        match self.beam.request(endpoint, HttpMethod::Get) {
+        match BeamRequest::request(endpoint, HttpMethod::Get) {
             Ok(ref raw_body) => {
                 let decoded: BeamChannel = match json::decode(raw_body) {
                     Ok(data) => data,
@@ -109,7 +111,7 @@ impl<'a> ChannelsRoutes<'a> {
     /// # use beam::models::channel::BeamChannel;
     /// # use beam::routes::channels::ChannelsRequestType;
     /// let beam = Beam::new();
-    /// let res = beam.channels().get_channels(ChannelsRequestType::All, 0);
+    /// let res = beam.channels.get_channels(ChannelsRequestType::All, 0);
     ///
     /// match res {
     ///     Ok(channels) => println!("{} channels have >20 viewers.", channels.iter().filter(|&x| x.viewersCurrent > 20).collect::<Vec<&BeamChannel>>().len()),
@@ -126,7 +128,7 @@ impl<'a> ChannelsRoutes<'a> {
 
         let endpoint = String::from(format!("/channels?{}&page={}", endpoint, page));
 
-        match self.beam.request(endpoint, HttpMethod::Get) {
+        match BeamRequest::request(endpoint, HttpMethod::Get) {
             Ok(ref raw_body) => {
                 let decoded: Vec<BeamChannel> = match json::decode(raw_body) {
                     Ok(data) => data,
