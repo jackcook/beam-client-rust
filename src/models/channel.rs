@@ -1,3 +1,9 @@
+use ::models::badge::BeamBadge;
+use ::models::cover::BeamCover;
+use ::models::thumbnail::BeamThumbnail;
+use ::models::btype::BeamType;
+use ::models::user::BeamUser;
+
 #[allow(non_snake_case)]
 #[derive(RustcDecodable, RustcEncodable)]
 pub struct BeamChannel {
@@ -28,4 +34,11 @@ pub struct BeamChannel {
     pub createdAt: Option<String>,
     pub updatedAt: Option<String>,
     pub deletedAt: Option<String>,
+    pub thumbnail: Option<BeamThumbnail>,
+    pub cover: Option<BeamCover>,
+    pub badge: Option<BeamBadge>,
+    pub btype: Option<BeamType>,
+    // pub cache: Vec<?>,
+    // pub preferences: BTreeMap<String, ?>,
+    pub user: Option<Box<BeamUser>>
 }
