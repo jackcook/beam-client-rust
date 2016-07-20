@@ -10,6 +10,13 @@ use ::models::channel::BeamChannel;
 pub type BeamChannelResult = Result<BeamChannel, Error>;
 pub type BeamChannelsResult = Result<Vec<BeamChannel>, Error>;
 
+pub enum ChannelsRequestType {
+    All,
+    Interactive,
+    Rising,
+    Fresh
+}
+
 pub struct ChannelsRoutes<'a> {
     pub beam: &'a Beam
 }
@@ -44,8 +51,16 @@ impl<'a> ChannelsRoutes<'a> {
         }
     }
 
-    pub fn get_channels(&self) -> BeamChannelsResult {
-        let res = self.beam.request(String::from("/channels"), HttpMethod::Get);
+    pub fn get_channels(&self, request_type: ChannelsRequestType, page: i32) -> BeamChannelsResult {
+        let endpoint = match request_type {
+            ChannelsRequestType::All => "order=online:desc,viewersCurrent:desc,viewersTotal:desc&where=suspended.eq.0,online.eq.1",
+            ChannelsRequestType::Interactive => "order=online:desc,viewersCurrent:desc,viewersTotal:desc&where=suspended.eq.0,online.eq.1,interactive.eq.1",
+            ChannelsRequestType::Rising => "order=online:desc,rising&where=suspended.eq.0,online.eq.1",
+            ChannelsRequestType::Fresh => "order=online:desc,fresh&where=suspended.eq.0,online.eq.1"
+        };
+
+        let endpoint = String::from(format!("/channels?{}&page={}", endpoint, page));
+        let res = self.beam.request(endpoint, HttpMethod::Get);
 
         match res {
             Ok(ref raw_body) => {
