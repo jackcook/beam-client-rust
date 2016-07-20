@@ -4,5 +4,5 @@ version = "0.1.0"
 authors = ["Jack Cook <hello@jackcook.nyc>"]
 
 [dependencies]
-curl = "0.2.19"
+hyper = "0.9.10"
 rustc-serialize = "0.3.19"

@@ -1,4 +1,7 @@
-use curl::http;
+use hyper::Client;
+use hyper::status::StatusCode;
+
+use std::io::Read;
 use std::str;
 
 use ::error::Error;
@@ -45,26 +48,26 @@ impl BeamRequest {
     /// }
     /// ```
     pub fn request(endpoint: String, request_type: HttpMethod) -> BeamResult {
-        let mut handle = http::handle();
-
+        let client = Client::new();
         let request = match request_type {
-            HttpMethod::Get => handle.get(BeamRequest::get_url(endpoint)),
-            HttpMethod::Post => handle.post(BeamRequest::get_url(endpoint), ""),
-            HttpMethod::Put => handle.put(BeamRequest::get_url(endpoint), ""),
-            HttpMethod::Patch => handle.patch(BeamRequest::get_url(endpoint), ""),
-            HttpMethod::Delete => handle.delete(BeamRequest::get_url(endpoint)),
+            HttpMethod::Get => client.get(&BeamRequest::get_url(endpoint)),
+            HttpMethod::Post => client.post(&BeamRequest::get_url(endpoint)),
+            HttpMethod::Put => client.put(&BeamRequest::get_url(endpoint)),
+            HttpMethod::Patch => client.patch(&BeamRequest::get_url(endpoint)),
+            HttpMethod::Delete => client.delete(&BeamRequest::get_url(endpoint)),
         };
 
-        let response = match request.exec() {
+        let mut response = match request.send() {
             Ok(data) => data,
-            Err(data) => return Err(Error::Http(data)),
+            Err(data) => return Err(Error::Http(data))
         };
 
-        let raw_body = match str::from_utf8(response.get_body()) {
-            Ok(data) => data,
-            Err(_) => return Err(Error::Json),
-        };
+        let mut buf = String::new();
+        response.read_to_string(&mut buf).expect("Failed to read response.");
 
-        Ok(raw_body.to_string())
+        match response.status {
+            StatusCode::Ok => return Ok(buf),
+            _ => return Err(Error::Api(response.status, buf))
+        }
     }
 }

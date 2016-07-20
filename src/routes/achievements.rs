@@ -41,7 +41,7 @@ impl AchievementsRoutes {
                     Ok(data) => data,
                     Err(err) => {
                         let err = format!("{}", err);
-                        return Err(Error::Api(err, raw_body.to_string()));
+                        return Err(Error::Unknown(format!("{}", err)))
                     }
                 };
 

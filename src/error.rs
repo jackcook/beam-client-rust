@@ -1,4 +1,5 @@
-extern crate curl;
+extern crate hyper;
+use hyper::status::StatusCode;
 
 use std::error::{self, Error as StdError};
 use std::fmt;
@@ -7,11 +8,13 @@ use std::fmt;
 #[derive(Debug)]
 pub enum Error {
     /// Beam's API returned an error.
-    Api(String, String),
+    Api(StatusCode, String),
     /// An error occurred while parsing JSON.
     Json,
     /// An HTTP error occurred.
-    Http(curl::ErrCode),
+    Http(hyper::Error),
+    /// An unknown error occurred.
+    Unknown(String)
 }
 
 impl error::Error for Error {
@@ -20,6 +23,7 @@ impl error::Error for Error {
             Error::Api(_, ref msg) => msg,
             Error::Json => "Invalid JSON",
             Error::Http(ref err) => err.description(),
+            Error::Unknown(ref err) => err
         }
     }
 
@@ -28,6 +32,7 @@ impl error::Error for Error {
             Error::Api(_, _) => None,
             Error::Json => None,
             Error::Http(ref err) => Some(err),
+            Error::Unknown(_) => None
         }
     }
 }

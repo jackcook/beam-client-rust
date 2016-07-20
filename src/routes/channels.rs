@@ -97,10 +97,7 @@ impl ChannelsRoutes {
             Ok(ref raw_body) => {
                 let decoded: BeamChannel = match json::decode(raw_body) {
                     Ok(data) => data,
-                    Err(err) => {
-                        let err = format!("{}", err);
-                        return Err(Error::Api(err, raw_body.to_string()));
-                    }
+                    Err(err) => return Err(Error::Unknown(format!("{}", err)))
                 };
 
                 return Ok(decoded);
@@ -144,10 +141,7 @@ impl ChannelsRoutes {
             Ok(ref raw_body) => {
                 let decoded: Vec<BeamChannel> = match json::decode(raw_body) {
                     Ok(data) => data,
-                    Err(err) => {
-                        let err = format!("{}", err);
-                        return Err(Error::Api(err, raw_body.to_string()));
-                    }
+                    Err(err) => return Err(Error::Unknown(format!("{}", err)))
                 };
 
                 return Ok(decoded);
@@ -181,10 +175,7 @@ impl ChannelsRoutes {
             Ok(ref raw_body) => {
                 let decoded: Vec<BeamUser> = match json::decode(raw_body) {
                     Ok(data) => data,
-                    Err(err) => {
-                        let err = format!("{}", err);
-                        return Err(Error::Api(err, raw_body.to_string()));
-                    }
+                    Err(err) => return Err(Error::Unknown(format!("{}", err)))
                 };
 
                 return Ok(decoded);
@@ -217,10 +208,7 @@ impl ChannelsRoutes {
             Ok(ref raw_body) => {
                 let decoded: BeamEmoticonPack = match json::decode(raw_body) {
                     Ok(data) => data,
-                    Err(err) => {
-                        let err = format!("{}", err);
-                        return Err(Error::Api(err, raw_body.to_string()));
-                    }
+                    Err(err) => return Err(Error::Unknown(format!("{}", err)))
                 };
 
                 return Ok(decoded);
@@ -253,11 +241,7 @@ impl ChannelsRoutes {
             Ok(ref raw_body) => {
                 let decoded: Vec<BeamRecording> = match json::decode(raw_body) {
                     Ok(data) => data,
-                    Err(err) => {
-                        println!("{}", err);
-                        let err = format!("{}", err);
-                        return Err(Error::Api(err, raw_body.to_string()));
-                    }
+                    Err(err) => return Err(Error::Unknown(format!("{}", err)))
                 };
 
                 return Ok(decoded);
