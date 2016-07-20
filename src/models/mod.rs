@@ -1,3 +1,6 @@
+/// An achievement model.
+pub mod achievement;
+
 /// A channel's badge image model.
 pub mod badge;
 

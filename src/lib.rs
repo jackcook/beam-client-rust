@@ -10,6 +10,7 @@ use error::Error;
 pub mod models;
 pub mod routes;
 
+use routes::achievements::AchievementsRoutes;
 use routes::channels::ChannelsRoutes;
 
 /// The REST method being used in an HTTP request.
@@ -44,15 +45,29 @@ impl Beam {
         Beam {}
     }
 
+    /// The method through which all achievement methods are accessed.
+    ///
+    /// # Example
+    /// ```rust
+    /// # use beam::Beam;
+    /// let beam = Beam::new();
+    /// let res = beam.achievements().get_achievements();
+    /// ```
+    pub fn achievements(&self) -> AchievementsRoutes {
+        AchievementsRoutes {
+            beam: self
+        }
+    }
+
     /// The method through which all channel methods are accessed.
     ///
     /// # Example
     /// ```rust
     /// # use beam::Beam;
     /// let beam = Beam::new();
-    /// let res = beam.channels_routes().get_channel_with_id(252);
+    /// let res = beam.channels().get_channel_with_id(252);
     /// ```
-    pub fn channels_routes(&self) -> ChannelsRoutes {
+    pub fn channels(&self) -> ChannelsRoutes {
         ChannelsRoutes {
             beam: self
         }

@@ -43,7 +43,7 @@ impl<'a> ChannelsRoutes<'a> {
     /// ```rust
     /// # use beam::Beam;
     /// let beam = Beam::new();
-    /// let res = beam.channels_routes().get_channel_with_id(252);
+    /// let res = beam.channels().get_channel_with_id(252);
     ///
     /// match res {
     ///     Ok(channel) => println!("{} has {} viewers.", channel.token, channel.viewersCurrent),
@@ -66,7 +66,7 @@ impl<'a> ChannelsRoutes<'a> {
     /// ```rust
     /// # use beam::Beam;
     /// let beam = Beam::new();
-    /// let res = beam.channels_routes().get_channel_with_token(String::from("jack"));
+    /// let res = beam.channels().get_channel_with_token(String::from("jack"));
     ///
     /// match res {
     ///     Ok(channel) => println!("{} has {} viewers.", channel.token, channel.viewersCurrent),
@@ -85,13 +85,13 @@ impl<'a> ChannelsRoutes<'a> {
                     Ok(data) => data,
                     Err(err) => {
                         let error = format!("{}", err);
-                        return Err(Error::Api(error, raw_body.to_string()))
+                        return Err(Error::Api(error, raw_body.to_string()));
                     }
                 };
 
                 return Ok(decoded);
             },
-            Err(_) => return Err(Error::Json),
+            Err(_) => return Err(Error::Json)
         }
     }
 
@@ -109,7 +109,7 @@ impl<'a> ChannelsRoutes<'a> {
     /// # use beam::models::channel::BeamChannel;
     /// # use beam::routes::channels::ChannelsRequestType;
     /// let beam = Beam::new();
-    /// let res = beam.channels_routes().get_channels(ChannelsRequestType::All, 0);
+    /// let res = beam.channels().get_channels(ChannelsRequestType::All, 0);
     ///
     /// match res {
     ///     Ok(channels) => println!("{} channels have >20 viewers.", channels.iter().filter(|&x| x.viewersCurrent > 20).collect::<Vec<&BeamChannel>>().len()),
@@ -132,13 +132,13 @@ impl<'a> ChannelsRoutes<'a> {
                     Ok(data) => data,
                     Err(err) => {
                         let error = format!("{}", err);
-                        return Err(Error::Api(error, raw_body.to_string()))
+                        return Err(Error::Api(error, raw_body.to_string()));
                     }
                 };
 
                 return Ok(decoded);
             },
-            Err(_) => return Err(Error::Json),
+            Err(_) => return Err(Error::Json)
         }
     }
 }
