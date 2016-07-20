@@ -9,7 +9,7 @@ static CHANNEL_TOKEN: &'static str = "jack";
 #[test]
 fn test_channel_with_id() {
     let beam = Beam::new();
-    let res = beam.channels_routes().get_channel(CHANNEL_ID);
+    let res = beam.channels_routes().get_channel_with_id(CHANNEL_ID);
 
     match res {
         Ok(_) => assert!(true),

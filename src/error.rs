@@ -3,10 +3,14 @@ extern crate curl;
 use std::error::{self, Error as StdError};
 use std::fmt;
 
+/// Error occuring during an API call.
 #[derive(Debug)]
 pub enum Error {
+    /// Beam's API returned an error.
     Api(String, String),
+    /// An error occurred while parsing JSON.
     Json,
+    /// An HTTP error occurred.
     Http(curl::ErrCode),
 }
 
