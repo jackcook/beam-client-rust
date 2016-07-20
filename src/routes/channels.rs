@@ -10,9 +10,11 @@ use ::models::channel::BeamChannel;
 pub type BeamChannelResult = Result<BeamChannel, Error>;
 pub type BeamChannelsResult = Result<Vec<BeamChannel>, Error>;
 
-pub struct ChannelsRoutes {}
+pub struct ChannelsRoutes<'a> {
+    pub beam: &'a Beam
+}
 
-impl ChannelsRoutes {
+impl<'a> ChannelsRoutes<'a> {
     pub fn get_channel(&self, id: u32) -> BeamChannelResult {
         let endpoint = format!("/channels/{}", id);
         self.get_channel_by_endpoint(endpoint)
@@ -24,8 +26,7 @@ impl ChannelsRoutes {
     }
 
     fn get_channel_by_endpoint(&self, endpoint: String) -> BeamChannelResult {
-        let beam = Beam::new();
-        let res = beam.request(endpoint, HttpMethod::Get);
+        let res = self.beam.request(endpoint, HttpMethod::Get);
 
         match res {
             Ok(ref raw_body) => {
@@ -44,8 +45,7 @@ impl ChannelsRoutes {
     }
 
     pub fn get_channels(&self) -> BeamChannelsResult {
-        let beam = Beam::new();
-        let res = beam.request(String::from("/channels"), HttpMethod::Get);
+        let res = self.beam.request(String::from("/channels"), HttpMethod::Get);
 
         match res {
             Ok(ref raw_body) => {

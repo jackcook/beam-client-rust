@@ -30,7 +30,9 @@ impl Beam {
     }
 
     pub fn channels_routes(&self) -> ChannelsRoutes {
-        ChannelsRoutes {}
+        ChannelsRoutes {
+            beam: self
+        }
     }
 
     fn get_url(&self, endpoint: String) -> String {
