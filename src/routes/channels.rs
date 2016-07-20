@@ -33,9 +33,7 @@ impl<'a> ChannelsRoutes<'a> {
     }
 
     fn get_channel_by_endpoint(&self, endpoint: String) -> BeamChannelResult {
-        let res = self.beam.request(endpoint, HttpMethod::Get);
-
-        match res {
+        match self.beam.request(endpoint, HttpMethod::Get) {
             Ok(ref raw_body) => {
                 let decoded: BeamChannel = match json::decode(raw_body) {
                     Ok(data) => data,
@@ -60,9 +58,8 @@ impl<'a> ChannelsRoutes<'a> {
         };
 
         let endpoint = String::from(format!("/channels?{}&page={}", endpoint, page));
-        let res = self.beam.request(endpoint, HttpMethod::Get);
 
-        match res {
+        match self.beam.request(endpoint, HttpMethod::Get) {
             Ok(ref raw_body) => {
                 let decoded: Vec<BeamChannel> = match json::decode(raw_body) {
                     Ok(data) => data,
