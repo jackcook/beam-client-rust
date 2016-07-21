@@ -20,7 +20,7 @@ after_success: |
   make install DESTDIR=../tmp &&
   cd ../.. &&
   ls target/debug &&
-  ./kcov-master/tmp/usr/local/bin/kcov --coveralls-id=$TRAVIS_JOB_ID --exclude-pattern=/.cargo target/kcov target/debug/beam-*
+  ./kcov-master/tmp/usr/local/bin/kcov --coveralls-id=$TRAVIS_JOB_ID --exclude-pattern=/.cargo target/kcov target/debug/*-* 
 matrix:
   allow_failures:
     - rust: nightly
