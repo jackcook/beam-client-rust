@@ -1,6 +1,7 @@
 # beam-client-rust
 
-[![Build Status](https://travis-ci.org/jackcook/beam-client-rust.svg)](https://travis-ci.org/jackcook/beam-client-rust)
+[![Linux Build Status](https://travis-ci.org/jackcook/beam-client-rust.svg)](https://travis-ci.org/jackcook/beam-client-rust)
+[![Windows Build Status](https://ci.appveyor.com/api/projects/status/77xf6xsxec8igrcd?svg=true)](https://ci.appveyor.com/project/jackcook/beam-client-rust)
 [![Coverage Status](https://coveralls.io/repos/github/jackcook/beam-client-rust/badge.svg)](https://coveralls.io/github/jackcook/beam-client-rust)
 
 This is a client library for [Beam](https://dev.beam.pro) written in Rust.
