@@ -33,7 +33,7 @@ impl IngestsRoutes {
     /// }
     /// ```
     pub fn get_ingests(&self) -> BeamIngestsResult {
-        let endpoint = String::from(format!("/ingests"));
+        let endpoint = String::from("/ingests");
         match BeamRequest::request(endpoint, HttpMethod::Get) {
             Ok(ref raw_body) => {
                 let decoded: Vec<BeamIngest> = match json::decode(raw_body) {

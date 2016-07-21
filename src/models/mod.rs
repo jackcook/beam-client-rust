@@ -31,6 +31,12 @@ pub mod recording;
 /// A channel's thumbnail image model.
 pub mod thumbnail;
 
+/// A transcode model.
+pub mod transcode;
+
+/// A transcode profile model.
+pub mod transcode_profile;
+
 /// A type model.
 pub mod btype;
 
