@@ -15,4 +15,6 @@ install:
   - cargo -V
 build: false
 test_script:
+  - cargo clean
+  - cargo build
   - cargo test --verbose
