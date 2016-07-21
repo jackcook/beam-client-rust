@@ -1,5 +1,4 @@
 extern crate beam;
-
 use beam::Beam;
 
 #[test]
