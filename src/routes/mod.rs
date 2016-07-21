@@ -12,3 +12,6 @@ pub mod ingests;
 
 /// Routes that can be used to retrieve recording data.
 pub mod recordings;
+
+/// Routes that can be used to retrieve type data.
+pub mod types;

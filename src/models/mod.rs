@@ -31,6 +31,9 @@ pub mod recording;
 /// A channel's thumbnail image model.
 pub mod thumbnail;
 
+/// A type model.
+pub mod btype;
+
 /// A user model.
 pub mod user;
 

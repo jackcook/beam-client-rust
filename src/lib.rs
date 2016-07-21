@@ -11,6 +11,7 @@ use routes::channels::ChannelsRoutes;
 use routes::chats::ChatsRoutes;
 use routes::ingests::IngestsRoutes;
 use routes::recordings::RecordingsRoutes;
+use routes::types::TypesRoutes;
 
 /// The main class of the API client.
 pub struct Beam {
@@ -23,7 +24,9 @@ pub struct Beam {
     /// The property through which all ingest routes are accessed.
     pub ingests: IngestsRoutes,
     /// The property through which all recording routes are accessed.
-    pub recordings: RecordingsRoutes
+    pub recordings: RecordingsRoutes,
+    /// The property through which all type routes are accessed.
+    pub types: TypesRoutes
 }
 
 impl Beam {
@@ -40,7 +43,8 @@ impl Beam {
             channels: ChannelsRoutes::new(),
             chats: ChatsRoutes::new(),
             ingests: IngestsRoutes::new(),
-            recordings: RecordingsRoutes::new()
+            recordings: RecordingsRoutes::new(),
+            types: TypesRoutes::new()
         }
     }
 }

@@ -7,15 +7,15 @@ pub struct BeamType {
     /// The name of the type.
     pub name: String,
     /// The type's parent category.
-    pub parent: String,
+    pub parent: Option<String>,
     /// A short description of the type.
-    pub description: String,
+    pub description: Option<String>,
     /// Where the type was found.
-    pub source: String,
+    pub source: Option<String>,
     /// The number of viewers watching channels playing this type.
-    pub viewersCurrent: i32,
+    pub viewersCurrent: Option<i32>,
     /// The type's cover image URL string.
-    pub coverUrl: String,
+    pub coverUrl: Option<String>,
     /// The number of channels currently playing this type.
-    pub online: i32
+    pub online: Option<i32>
 }
