@@ -1,5 +1,4 @@
 extern crate rustc_serialize;
-
 use rustc_serialize::json;
 
 use ::request::{BeamRequest, HttpMethod};

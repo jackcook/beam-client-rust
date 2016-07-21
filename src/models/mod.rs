@@ -22,6 +22,9 @@ pub mod emoticon_pack;
 /// An emoticon model.
 pub mod emoticon;
 
+/// An ingest model.
+pub mod ingest;
+
 /// A recording model.
 pub mod recording;
 

@@ -9,6 +9,7 @@ pub mod routes;
 use routes::achievements::AchievementsRoutes;
 use routes::channels::ChannelsRoutes;
 use routes::chats::ChatsRoutes;
+use routes::ingests::IngestsRoutes;
 
 /// The main class of the API client.
 pub struct Beam {
@@ -17,7 +18,9 @@ pub struct Beam {
     /// The property through which all channel routes are accessed.
     pub channels: ChannelsRoutes,
     /// The property through which all chat routes are accessed.
-    pub chats: ChatsRoutes
+    pub chats: ChatsRoutes,
+    /// The property through which all ingest routes are accessed.
+    pub ingests: IngestsRoutes
 }
 
 impl Beam {
@@ -32,7 +35,8 @@ impl Beam {
         Beam {
             achievements: AchievementsRoutes::new(),
             channels: ChannelsRoutes::new(),
-            chats: ChatsRoutes::new()
+            chats: ChatsRoutes::new(),
+            ingests: IngestsRoutes::new()
         }
     }
 }
