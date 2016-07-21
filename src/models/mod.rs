@@ -28,6 +28,9 @@ pub mod ingest;
 /// A recording model.
 pub mod recording;
 
+/// A team model.
+pub mod team;
+
 /// A channel's thumbnail image model.
 pub mod thumbnail;
 

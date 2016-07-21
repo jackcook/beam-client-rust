@@ -11,6 +11,7 @@ use routes::channels::ChannelsRoutes;
 use routes::chats::ChatsRoutes;
 use routes::ingests::IngestsRoutes;
 use routes::recordings::RecordingsRoutes;
+use routes::teams::TeamsRoutes;
 use routes::transcodes::TranscodesRoutes;
 use routes::types::TypesRoutes;
 
@@ -26,6 +27,8 @@ pub struct Beam {
     pub ingests: IngestsRoutes,
     /// The property through which all recording routes are accessed.
     pub recordings: RecordingsRoutes,
+    /// The property through which all team routes are accessed.
+    pub teams: TeamsRoutes,
     /// The property through which all transcode routes are accessed.
     pub transcodes: TranscodesRoutes,
     /// The property through which all type routes are accessed.
@@ -47,6 +50,7 @@ impl Beam {
             chats: ChatsRoutes::new(),
             ingests: IngestsRoutes::new(),
             recordings: RecordingsRoutes::new(),
+            teams: TeamsRoutes::new(),
             transcodes: TranscodesRoutes::new(),
             types: TypesRoutes::new()
         }

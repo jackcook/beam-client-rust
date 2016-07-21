@@ -48,13 +48,15 @@ impl BeamRequest {
     /// }
     /// ```
     pub fn request(endpoint: String, request_type: HttpMethod) -> BeamResult {
+        let url = BeamRequest::get_url(endpoint);
+
         let client = Client::new();
         let request = match request_type {
-            HttpMethod::Get => client.get(&BeamRequest::get_url(endpoint)),
-            HttpMethod::Post => client.post(&BeamRequest::get_url(endpoint)),
-            HttpMethod::Put => client.put(&BeamRequest::get_url(endpoint)),
-            HttpMethod::Patch => client.patch(&BeamRequest::get_url(endpoint)),
-            HttpMethod::Delete => client.delete(&BeamRequest::get_url(endpoint)),
+            HttpMethod::Get => client.get(&url),
+            HttpMethod::Post => client.post(&url),
+            HttpMethod::Put => client.put(&url),
+            HttpMethod::Patch => client.patch(&url),
+            HttpMethod::Delete => client.delete(&url),
         };
 
         let mut response = match request.send() {
