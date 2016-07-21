@@ -10,6 +10,7 @@ use routes::achievements::AchievementsRoutes;
 use routes::channels::ChannelsRoutes;
 use routes::chats::ChatsRoutes;
 use routes::ingests::IngestsRoutes;
+use routes::recordings::RecordingsRoutes;
 
 /// The main class of the API client.
 pub struct Beam {
@@ -20,7 +21,9 @@ pub struct Beam {
     /// The property through which all chat routes are accessed.
     pub chats: ChatsRoutes,
     /// The property through which all ingest routes are accessed.
-    pub ingests: IngestsRoutes
+    pub ingests: IngestsRoutes,
+    /// The property through which all recording routes are accessed.
+    pub recordings: RecordingsRoutes
 }
 
 impl Beam {
@@ -36,7 +39,8 @@ impl Beam {
             achievements: AchievementsRoutes::new(),
             channels: ChannelsRoutes::new(),
             chats: ChatsRoutes::new(),
-            ingests: IngestsRoutes::new()
+            ingests: IngestsRoutes::new(),
+            recordings: RecordingsRoutes::new()
         }
     }
 }
