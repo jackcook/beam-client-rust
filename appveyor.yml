@@ -5,10 +5,10 @@ environment:
   matrix:
     - TARGET: i686-pc-windows-gnu
       BITS: 32
+    - TARGET: x86_64-pc-windows-gnu
+      BITS: 64
   # - TARGET: x86_64-pc-windows-msvc
   # - TARGET: i686-pc-windows-msvc
-  # - TARGET: x86_64-pc-windows-gnu
-  # - TARGET: i686-pc-windows-gnu
 install:
   - ps: Start-FileDownload "http://slproweb.com/download/Win${env:BITS}OpenSSL-1_0_2h.exe"
   - Win%BITS%OpenSSL-1_0_2h.exe /SILENT /VERYSILENT /SP- /DIR="C:\OpenSSL"
@@ -20,6 +20,4 @@ install:
   - cargo -V
 build: false
 test_script:
-  - cargo clean
-  - cargo build
   - cargo test --verbose
