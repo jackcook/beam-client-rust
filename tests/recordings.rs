@@ -7,9 +7,5 @@ static RECORDING_ID: u32 = 420;
 fn test_recording() {
     let beam = Beam::new();
     let res = beam.recordings.get_recording(RECORDING_ID);
-
-    match res {
-        Ok(_) => assert!(true),
-        Err(_) => panic!("error retrieving recording")
-    }
+    assert!(res.is_ok());
 }
