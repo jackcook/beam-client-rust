@@ -14,6 +14,7 @@ use routes::recordings::RecordingsRoutes;
 use routes::teams::TeamsRoutes;
 use routes::transcodes::TranscodesRoutes;
 use routes::types::TypesRoutes;
+use routes::users::UsersRoutes;
 
 /// The main class of the API client.
 pub struct Beam {
@@ -32,7 +33,9 @@ pub struct Beam {
     /// The property through which all transcode routes are accessed.
     pub transcodes: TranscodesRoutes,
     /// The property through which all type routes are accessed.
-    pub types: TypesRoutes
+    pub types: TypesRoutes,
+    /// The property through which all user routes are accessed.
+    pub users: UsersRoutes
 }
 
 impl Beam {
@@ -52,7 +55,8 @@ impl Beam {
             recordings: RecordingsRoutes::new(),
             teams: TeamsRoutes::new(),
             transcodes: TranscodesRoutes::new(),
-            types: TypesRoutes::new()
+            types: TypesRoutes::new(),
+            users: UsersRoutes::new()
         }
     }
 }

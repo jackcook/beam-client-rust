@@ -21,3 +21,6 @@ pub mod transcodes;
 
 /// Routes that can be used to retrieve type data.
 pub mod types;
+
+/// Routes that can be used to retrieve user data.
+pub mod users;
