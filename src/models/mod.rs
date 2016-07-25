@@ -46,6 +46,9 @@ pub mod btype;
 /// A user model.
 pub mod user;
 
+/// A user achievement model.
+pub mod user_achievement;
+
 /// A VoD (video on demand) model.
 pub mod vod;
 
