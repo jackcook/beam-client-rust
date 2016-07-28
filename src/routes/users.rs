@@ -13,6 +13,9 @@ pub type BeamUserAchievementsResult = Result<Vec<BeamUserAchievement>, Error>;
 /// Result from a call returning a user.
 pub type BeamUserResult = Result<BeamUser, Error>;
 
+/// Result from a call returning multiple users.
+pub type BeamUsersResult = Result<Vec<BeamUser>, Error>;
+
 /// Routes that can be used to retrieve user data.
 pub struct UsersRoutes {}
 
@@ -45,6 +48,39 @@ impl UsersRoutes {
         match BeamRequest::request(endpoint, HttpMethod::Get) {
             Ok(ref raw_body) => {
                 let decoded: BeamUser = match json::decode(raw_body) {
+                    Ok(data) => data,
+                    Err(err) => return Err(Error::Unknown(format!("{}", err)))
+                };
+
+                return Ok(decoded);
+            },
+            Err(_) => return Err(Error::Json)
+        }
+    }
+
+    /// Retrieves users who match a given query.
+    ///
+    /// # Arguments
+    ///
+    /// `query` The query string to match.
+    ///
+    /// # Example
+    ///
+    /// ```rust
+    /// # use beam::Beam;
+    /// let beam = Beam::new();
+    /// let res = beam.users.get_users_by_query(String::from("jack"), 0);
+    ///
+    /// match res {
+    ///     Ok(users) => println!("{} users came up matching this query.", users.len()),
+    ///     Err(_) => println!("error retrieving users :(")
+    /// }
+    /// ```
+    pub fn get_users_by_query(&self, query: String, page: u32) -> BeamUsersResult {
+        let endpoint = String::from(format!("/users/search?query={}&page={}", query, page));
+        match BeamRequest::request(endpoint, HttpMethod::Get) {
+            Ok(ref raw_body) => {
+                let decoded: Vec<BeamUser> = match json::decode(raw_body) {
                     Ok(data) => data,
                     Err(err) => return Err(Error::Unknown(format!("{}", err)))
                 };
