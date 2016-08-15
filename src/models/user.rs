@@ -15,7 +15,7 @@ pub struct BeamUser {
     /// The number of experience points earned by the user.
     pub experience: i32,
     /// The number of sparks earned by the user.
-    pub sparks: i32,
+    pub sparks: f64,
     /// The user's avatar image URL string.
     pub avatarUrl: Option<String>,
     /// A short biography written by the user.

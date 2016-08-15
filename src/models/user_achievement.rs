@@ -11,7 +11,7 @@ pub struct BeamUserAchievement {
     /// How much progress has been made in earning this achievement, {0 <= x <= 1}.
     pub progress: f32,
     /// The date string, in UTC, on which the user began to earn this achievement.
-    pub createdAt: String,
+    pub createdAt: Option<String>,
     /// The date string, in UTC, on which the user last made progress on this achievement.
     pub updatedAt: String,
     /// The achievement's slug/identifier.

@@ -1,7 +1,7 @@
 extern crate beam;
 use beam::Beam;
 
-static RECORDING_ID: u32 = 420;
+static RECORDING_ID: u32 = 502;
 
 #[test]
 fn test_recording() {
