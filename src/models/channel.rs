@@ -37,9 +37,9 @@ pub struct BeamChannel {
     pub description: Option<String>,
     /// The identifier of the type being played by the channel.
     pub typeId: Option<i32>,
-    /// True if the channel's content is compatible with Tetris.
+    /// True if the channel's content has Interactive capabilities.
     pub interactive: bool,
-    /// The identifier of the Tetris game being played by the channel.
+    /// The identifier of the interactive game being played by the channel.
     pub tetrisGameId: Option<i32>,
     /// FTL is enabled if this value is >0.
     pub ftl: i32,

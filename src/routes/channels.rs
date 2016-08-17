@@ -31,7 +31,7 @@ pub type BeamViewersResult = Result<Vec<BeamUser>, Error>;
 pub enum ChannelsRequestType {
     /// All online channels, sorted by descending viewer count.
     All,
-    /// All channels that support Tetris, sorted by descending viewer count.
+    /// All channels that have interactive capabilities, sorted by descending viewer count.
     Interactive,
     /// Rising stars, channels that have some potential.
     Rising,
